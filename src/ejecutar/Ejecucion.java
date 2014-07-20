@@ -7,7 +7,7 @@ import vista.VentanaPrincipal;
 import modelo.TablasDatos;
 
 /**
- * @author tenerent
+ * @author Guillermo Rodriguez Pardo
  *
  */
 public class Ejecucion {

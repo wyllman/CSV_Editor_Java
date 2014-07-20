@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
- * @author tenerent
+ * @author Guillermo Rodriguez Pardo
  *
  */
 public class VentanaPrincipal extends JFrame {

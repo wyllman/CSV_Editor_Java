@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 /**
- * @author tenerent
+ * @author Guillermo Rodriguez Pardo
  *
  */
 
@@ -81,7 +81,9 @@ public class TablasDatos {
    
    //----------------------------------------------------------------------------------
    // Metodos privados.(Inicio) -------------------------------------------------------
-   
+   private void separarCampoGEOJason (int posCampo) {
+      // TODO:
+   }
    /*
     * Descripci—n: MŽtodo general para trasladar los datos de la bbdd auxiliar a la bbdd
     *              del servidor. Se utiliza un vector de pares de enteros para indicar la
