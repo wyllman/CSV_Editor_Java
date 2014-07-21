@@ -26,14 +26,22 @@ public class Ejecucion {
 
       TablasDatos pruebaTablas = new TablasDatos();
 	   
-      pruebaTablas.cargarBBDD("playas.csv");
+      pruebaTablas.cargarBBDD_A_Mezclar("playas.csv");
       
-      pruebaTablas.mostrarBBDD();
+      pruebaTablas.mostrarBBDD_A_Mezclar();
       
-      pruebaTablas.eliminarRegistrosVaciosBBDD(2);
       
-      pruebaTablas.mostrarBBDD();
+      pruebaTablas.eliminarRegistrosVaciosBBDD_A_Mezclar(2);
       
-      VentanaPrincipal pruebaVentana = new VentanaPrincipal ();
+      pruebaTablas.mostrarBBDD_A_Mezclar();
+      
+      pruebaTablas.separarCampoGEOJason(2);
+      
+      pruebaTablas.mostrarBBDD_A_Mezclar();
+      
+      pruebaTablas.guardarBBDD_A_Mezclar("playas2.csv");
+      //pruebaTablas.mostrarBBDD_A_Mezclar();
+      
+      //VentanaPrincipal pruebaVentana = new VentanaPrincipal ();
    }
 }

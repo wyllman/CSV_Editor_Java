@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 /**
@@ -32,7 +34,15 @@ public class TablasDatos {
    
    //----------------------------------------------------------------------------------
    // Metodos pœblicos.(Inicio) -------------------------------------------------------
-   
+   public void guardarBBDD (String archivo) {
+      guardar (archivo, TYPE_BBDD.BIG);
+   }
+   public void guardarBBDD_Lite (String archivo) {
+      guardar (archivo, TYPE_BBDD.LITE);
+   }
+   public  void guardarBBDD_A_Mezclar (String archivo) {
+      guardar (archivo, TYPE_BBDD.AUX);
+   }
    /*
     * Descripci—n: Funciones espec’ficas para la eliminaci—n de registros con el campo 
     *              de control especificado vacio.
@@ -74,6 +84,42 @@ public class TablasDatos {
    public  void cargarBBDD_A_Mezclar (String archivo) {
       cargar (archivo, TYPE_BBDD.AUX);
    }
+   /*
+    * Descripci—n: MŽtodo para la separaci—n de un campo de tipo GEOJason en dos campos
+    *              Latitud, Longitud
+    *              
+    */
+   public void separarCampoGEOJason (int posCampo) {
+      String campoASeparar;
+      String [] latitudLongitud;
+      String [] temporal;
+      for (int i = 0; i < _BBDD_A_Mezclar.size(); ++i) {
+         campoASeparar = _BBDD_A_Mezclar.get(i)[posCampo];
+         temporal = new String [_BBDD_A_Mezclar.size() + 1];
+         for (int j = 0; j < temporal.length; ++j) {
+           if (j < posCampo) {
+              temporal[j] = _BBDD_A_Mezclar.get(i)[j];
+           } else if (j > posCampo + 1) {
+              temporal[j] = _BBDD_A_Mezclar.get(i)[j - 1];
+           }
+         }
+         
+         if ( i >= 1) {
+            latitudLongitud = campoASeparar.split(",");
+            latitudLongitud[0] = latitudLongitud[0].substring(2);
+            latitudLongitud[1] = latitudLongitud[1].substring(0, latitudLongitud[1].length() - 3);
+            temporal[posCampo] = "\"" + latitudLongitud[0] + "\"";
+            temporal[posCampo + 1]= "\"" + latitudLongitud[1] + "\"";
+            
+         } else {
+            temporal[posCampo] = "latitud";
+            temporal[posCampo + 1] = "longitud";
+         }
+         
+         _BBDD_A_Mezclar.remove(i);
+         _BBDD_A_Mezclar.add(i, temporal);
+      }
+   }
    // Metodos publicos.(Fin) ----------------------------------------------------------
    //----------------------------------------------------------------------------------
    
@@ -81,9 +127,55 @@ public class TablasDatos {
    
    //----------------------------------------------------------------------------------
    // Metodos privados.(Inicio) -------------------------------------------------------
-   private void separarCampoGEOJason (int posCampo) {
-      // TODO:
+   
+   private void guardar (String nombreArchivo, TYPE_BBDD tipo) {
+      Vector<String []> temporal = null;
+      String linea;
+      FileWriter fichero = null;
+      PrintWriter pw = null;
+      try {
+         fichero = new FileWriter(nombreArchivo);
+         pw = new PrintWriter(fichero);
+         
+         switch (tipo) {
+            case BIG:
+               temporal = _BBDD;
+               break;
+            case LITE:
+               temporal = _BBDD_Lite;
+               break;
+            case AUX:
+               temporal = _BBDD_A_Mezclar;
+               break;
+            default:
+               break;
+         }
+         
+         for (int i = 0; i < temporal.size(); ++i) {
+            linea = "";
+            for (int j = 0; j < temporal.get(i).length; ++j) {
+               if (j < temporal.get(i).length - 1) {
+                 linea += temporal.get(i)[j] + ",";
+               } else {
+                 linea += temporal.get(i)[j];
+               }
+            }
+            pw.println(linea);
+         }
+         
+      } catch (IOException e) {
+         System.out.println("Error abriendo archivo...");
+         e.printStackTrace();
+      } finally {
+          try {
+             if (null != fichero)
+                fichero.close();
+          } catch (Exception e2) {
+             e2.printStackTrace();
+          }
+       }
    }
+   
    /*
     * Descripci—n: MŽtodo general para trasladar los datos de la bbdd auxiliar a la bbdd
     *              del servidor. Se utiliza un vector de pares de enteros para indicar la
