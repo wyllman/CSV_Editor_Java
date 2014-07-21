@@ -26,9 +26,14 @@ public class Ejecucion {
 
       TablasDatos pruebaTablas = new TablasDatos();
 	   
-      pruebaTablas.cargarBBDD_A_Mezclar("playas.csv");
+      pruebaTablas.cargarBBDD_A_Mezclar("restauracion.csv");
+      
+      
+      
+      //pruebaTablas.normalizarComillas ();
       
       pruebaTablas.mostrarBBDD_A_Mezclar();
+      
       
       
       pruebaTablas.eliminarRegistrosVaciosBBDD_A_Mezclar(2);
@@ -39,7 +44,7 @@ public class Ejecucion {
       
       pruebaTablas.mostrarBBDD_A_Mezclar();
       
-      pruebaTablas.guardarBBDD_A_Mezclar("playas2.csv");
+      pruebaTablas.guardarBBDD_A_Mezclar("restauracion2.csv");
       //pruebaTablas.mostrarBBDD_A_Mezclar();
       
       //VentanaPrincipal pruebaVentana = new VentanaPrincipal ();

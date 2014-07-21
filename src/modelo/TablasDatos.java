@@ -60,7 +60,7 @@ public class TablasDatos {
     * Descripci—n: Funciones espec’ficas para mostrar los datos contenidos en cada una
     *              de las tres bases de datos.
     */
-   final boolean EXTENDIDO = true;
+   final boolean EXTENDIDO = false;
    
    public void mostrarBBDD () {
       mostrar (TYPE_BBDD.BIG, EXTENDIDO);
@@ -95,7 +95,7 @@ public class TablasDatos {
       String [] temporal;
       for (int i = 0; i < _BBDD_A_Mezclar.size(); ++i) {
          campoASeparar = _BBDD_A_Mezclar.get(i)[posCampo];
-         temporal = new String [_BBDD_A_Mezclar.size() + 1];
+         temporal = new String [_BBDD_A_Mezclar.get(i).length + 1];
          for (int j = 0; j < temporal.length; ++j) {
            if (j < posCampo) {
               temporal[j] = _BBDD_A_Mezclar.get(i)[j];
@@ -118,6 +118,13 @@ public class TablasDatos {
          
          _BBDD_A_Mezclar.remove(i);
          _BBDD_A_Mezclar.add(i, temporal);
+      }
+   }
+   public void normalizarComillas () {
+      for (int i = 0; i < _BBDD_A_Mezclar.size(); ++i) {
+         for (int j = 0; j < _BBDD_A_Mezclar.get(i).length; ++j) {
+            _BBDD_A_Mezclar.get(i)[j] = "\"" + _BBDD_A_Mezclar.get(i)[j] + "\"";
+         }
       }
    }
    // Metodos publicos.(Fin) ----------------------------------------------------------
@@ -213,6 +220,7 @@ public class TablasDatos {
       }
       
       for (int i = 0; i < temporal.size(); ++i) {
+         if (temporal.get(i).length > posCampoControl)
          if (temporal.get(i)[posCampoControl].matches("\"\b*\"|\b+")) {
             System.out.println("+++++++++ENCONTRADO+++++++++++++++");
             temporal.remove(i);
