@@ -120,12 +120,114 @@ public class TablasDatos {
          _BBDD_A_Mezclar.add(i, temporal);
       }
    }
+   /*
+    * Descripci—n: MŽtodo general para trasladar los datos de la bbdd auxiliar a la bbdd
+    *              del servidor. Se utiliza un vector de pares de enteros para indicar la
+    *              correlaci—n entre las columnas de la bbdd auxiliar y la del servidor.
+    */
+   public void trasladarDatos () {
+      for (int i = 1; i < _BBDD_A_Mezclar.size(); ++i) {
+         _BBDD.add(_BBDD_A_Mezclar.get(i));
+      }
+   }
+   public void trasladarDatos (Vector<int []> pares) { 
+      String [] temporal; //= new String [_BBDD.get(0).length];
+      
+      for (int i = 1; i < _BBDD_A_Mezclar.size(); ++i) {
+         temporal = new String [_BBDD.get(0).length];
+         for (int j = 0; j < temporal.length; ++j) {
+            temporal[j] = "\"\"";
+         }
+         
+         
+         for (int j = 0; j < pares.size(); ++j) {
+            temporal[pares.get(j)[1]] = _BBDD_A_Mezclar.get(i)[pares.get(j)[0]]; 
+         }
+         _BBDD.add(temporal);
+      }
+   }
    public void normalizarComillas () {
       for (int i = 0; i < _BBDD_A_Mezclar.size(); ++i) {
-         for (int j = 0; j < _BBDD_A_Mezclar.get(i).length; ++j) {
-            _BBDD_A_Mezclar.get(i)[j] = "\"" + _BBDD_A_Mezclar.get(i)[j] + "\"";
+         for (int j = 1; j < _BBDD_A_Mezclar.get(i).length; ++j) {
+            if (_BBDD_A_Mezclar.get(i)[j].compareTo("") == 0 || _BBDD_A_Mezclar.get(i)[j] == null) {
+               System.out.println("normalizando comillas...............");
+               _BBDD_A_Mezclar.get(i)[j] = "\"" + _BBDD_A_Mezclar.get(i)[j] + "\"";
+            }
          }
       }
+   }
+   /*
+    * Descripci—n:
+    */
+   public void rellenarCampo (TYPE_BBDD tipo, int posCampo, String contenido) {
+      Vector<String []> temporal = null;
+      switch (tipo) {
+         case BIG:
+            temporal = _BBDD;
+            break;
+         case LITE:
+            temporal = _BBDD_Lite;
+            break;
+         case AUX:
+            temporal = _BBDD_A_Mezclar;
+            break;
+         default:
+            break;
+      }
+      
+      for (int i = 1; i < temporal.size(); ++i) {
+         temporal.get(i)[posCampo] = "\"" + contenido + "\"";
+      }
+   }
+   /*
+    * Descripci—n:
+    */
+   public void eliminarCampoTexto (TYPE_BBDD tipo, int posCampo, String textoComp) {
+      Vector<String []> temporal = null;
+      switch (tipo) {
+         case BIG:
+            temporal = _BBDD;
+            break;
+         case LITE:
+            temporal = _BBDD_Lite;
+            break;
+         case AUX:
+            temporal = _BBDD_A_Mezclar;
+            break;
+         default:
+            break;
+      }
+      
+      for (int i = 0; i < temporal.size(); ++i) {
+         if (temporal.get(i)[posCampo].compareToIgnoreCase(textoComp) == 0){
+            temporal.remove(i);
+            --i;
+         }
+      }
+   }
+   /*
+    * Descripci—n:
+    */
+   public void cambiarCampo (TYPE_BBDD tipo, int posCampoCom, String textoCom, int posCampoDest, String contenido) {
+      Vector<String []> temporal = null;
+      switch (tipo) {
+         case BIG:
+            temporal = _BBDD;
+            break;
+         case LITE:
+            temporal = _BBDD_Lite;
+            break;
+         case AUX:
+            temporal = _BBDD_A_Mezclar;
+            break;
+         default:
+            break;
+      }
+      for (int i = 0; i < temporal.size(); ++i) {
+          if (temporal.get(i)[posCampoCom].compareToIgnoreCase(textoCom) == 0){
+             temporal.get(i)[posCampoDest] = "\"" + contenido + "\"";
+          }
+       }
    }
    // Metodos publicos.(Fin) ----------------------------------------------------------
    //----------------------------------------------------------------------------------
@@ -134,7 +236,10 @@ public class TablasDatos {
    
    //----------------------------------------------------------------------------------
    // Metodos privados.(Inicio) -------------------------------------------------------
-   
+  
+   /*
+    * Descripci—n:
+    */
    private void guardar (String nombreArchivo, TYPE_BBDD tipo) {
       Vector<String []> temporal = null;
       String linea;
@@ -183,22 +288,6 @@ public class TablasDatos {
        }
    }
    
-   /*
-    * Descripci—n: MŽtodo general para trasladar los datos de la bbdd auxiliar a la bbdd
-    *              del servidor. Se utiliza un vector de pares de enteros para indicar la
-    *              correlaci—n entre las columnas de la bbdd auxiliar y la del servidor.
-    */
-   private void trasladarDatos (Vector<int []> pares) { 
-      String [] temporal; //= new String [_BBDD.get(0).length];
-      
-      for (int i = 0; i < _BBDD_A_Mezclar.size(); ++i) {
-         temporal = new String [_BBDD.get(0).length];
-         for (int j = 0; j < pares.size(); ++j) {
-            temporal[pares.get(j)[0]] = _BBDD_A_Mezclar.get(i)[pares.get(j)[1]]; 
-         }
-         _BBDD.add(temporal);
-      }
-   }
    /*
     * Descripci—n: MŽtodo general para eliminar los registros con el campo de control
     *              vac’o.
