@@ -29,13 +29,19 @@ public class Ejecucion {
 
       TablasDatos pruebaTablas = new TablasDatos();
       
-      pruebaTablas.cargarBBDD("Base-Total6.csv");
+      pruebaTablas.cargarBBDD("Lite-total.csv");
       pruebaTablas.mostrarBBDD();
-      pruebaTablas.cargarBBDD_A_Mezclar("base-iass-4.csv");
+      pruebaTablas.cargarBBDD_A_Mezclar("Base-Total7.csv");
       
-      pruebaTablas.trasladarDatos();
-      pruebaTablas.mostrarBBDD();
-      pruebaTablas.guardarBBDD("Base-Total7.csv");
+      pruebaTablas.numerarCampo(TYPE_BBDD.BIG, 0);
+      pruebaTablas.numerarCampo(TYPE_BBDD.AUX, 0);
+      
+      pruebaTablas.guardarBBDD("Lite-Total1.csv");
+      pruebaTablas.guardarBBDD_A_Mezclar("Base-Total8.csv");
+      
+      //pruebaTablas.trasladarDatos();
+      //pruebaTablas.mostrarBBDD();
+      //pruebaTablas.guardarBBDD("Base-Total7.csv");
       //pruebaTablas.mostrarBBDD();
       
       
@@ -150,37 +156,37 @@ public class Ejecucion {
       /*Vector<int []> pares = new Vector<int []> ();
       int par[] = new int [2];
       par[0] = 0;
-      par[1] = 9;
+      par[1] = 0;
       
       pares.add(par);
       
       par = new int [2];
-      par[0] = 0;
-      par[1] = 23;
+      par[0] = 9;
+      par[1] = 1;
       
       pares.add(par);
       
       par = new int [2];
-      par[0] = 1;
-      par[1] = 16;
+      par[0] = 16;
+      par[1] = 2;
       
       pares.add(par);
       
       par = new int [2];
-      par[0] = 2;
-      par[1] = 9;
+      par[0] = 19;
+      par[1] = 3;
       
       pares.add(par);
       
       par = new int [2];
-      par[0] = 3;
-      par[1] = 10;
+      par[0] = 20;
+      par[1] = 4;
       
       pares.add(par);
       
       par = new int [2];
-      par[0] = 5;
-      par[1] = 17;
+      par[0] = 23;
+      par[1] = 5;
       
       pares.add(par);
       
@@ -211,16 +217,16 @@ public class Ejecucion {
       pares.add(par);
       
       
-      /*par = new int [2];
+      par = new int [2];
       par[0] = 13;
       par[1] = 23;
       
-      pares.add(par);
+      pares.add(par);*/
       
-      pruebaTablas.trasladarDatos(pares);
+      //pruebaTablas.trasladarDatos(pares);
       
-      pruebaTablas.mostrarBBDD();
-      pruebaTablas.guardarBBDD("base-iass.csv");*/
+      //pruebaTablas.mostrarBBDD();
+      //pruebaTablas.guardarBBDD("Lite-total.csv");
       
       
       

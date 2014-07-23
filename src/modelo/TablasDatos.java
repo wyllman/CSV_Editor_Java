@@ -159,6 +159,29 @@ public class TablasDatos {
    /*
     * Descripci—n:
     */
+   public void numerarCampo (TYPE_BBDD tipo, int posCampo) {
+      Vector<String []> temporal = null;
+      switch (tipo) {
+         case BIG:
+            temporal = _BBDD;
+            break;
+         case LITE:
+            temporal = _BBDD_Lite;
+            break;
+         case AUX:
+            temporal = _BBDD_A_Mezclar;
+            break;
+         default:
+            break;
+      }
+      
+      for (int i = 1; i < temporal.size(); ++i) {
+         temporal.get(i)[posCampo] = "\"" + i + "\"";
+      }
+   }
+   /*
+    * Descripci—n:
+    */
    public void rellenarCampo (TYPE_BBDD tipo, int posCampo, String contenido) {
       Vector<String []> temporal = null;
       switch (tipo) {
